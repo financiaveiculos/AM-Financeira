@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lojista — AM Financeira</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0B1C3A;--navy2:#0D2147;--navy3:#112554;--navy4:#162E63;--navy-light:#1A3570;
+  --gold:#C9A84C;--gold-light:#E2C96A;
+  --gold-dim:rgba(201,168,76,0.12);--gold-border:rgba(201,168,76,0.32);
+  --text:#EEE8DA;--text-muted:#8EA0BE;--text-sub:#B8C6D8;
+  --border:rgba(255,255,255,0.07);
+}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Jost',sans-serif;font-weight:300;background:var(--navy);color:var(--text);overflow-x:hidden}
+
+nav{position:sticky;top:0;z-index:1000;background:rgba(11,28,58,0.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--gold-border);padding:0 56px}
+.nav-container{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;height:72px}
+.nav-logo img{height:46px;width:auto}
+.nav-links{display:flex;gap:2.4rem;align-items:center}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.74rem;letter-spacing:0.18em;text-transform:uppercase;transition:color 0.3s;font-weight:400}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-cta{padding:0.52rem 1.6rem;border:1px solid var(--gold-border);color:var(--gold)!important;transition:all 0.3s!important}
+.nav-cta:hover{background:var(--gold)!important;color:var(--navy)!important}
+
+/* HERO */
+.page-hero{position:relative;min-height:80vh;display:flex;align-items:flex-end;overflow:hidden}
+.page-hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    linear-gradient(to bottom, rgba(11,28,58,0.25) 0%, rgba(11,28,58,0.65) 55%, rgba(11,28,58,1) 100%),
+    linear-gradient(to right, rgba(11,28,58,0.7) 0%, transparent 60%),
+    url('lojista-hero.png') center/cover no-repeat;
+}
+.page-hero-content{position:relative;z-index:2;max-width:1200px;margin:auto;padding:0 20px 90px;width:100%}
+.eyebrow{font-size:0.66rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;display:flex;align-items:center;gap:1.2rem}
+.eyebrow::before{content:'';display:block;width:3rem;height:1px;background:var(--gold-border)}
+.page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.2rem);font-weight:300;line-height:1.05;margin-bottom:1.2rem}
+.page-hero h1 em{font-style:normal;color:var(--gold);font-weight:400}
+.hero-desc{font-size:0.95rem;color:var(--text-sub);max-width:580px;line-height:1.82;margin-bottom:2.2rem;font-weight:300}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Jost',sans-serif;font-size:0.74rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;padding:0.9rem 2.2rem;transition:all 0.3s;font-weight:500;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,168,76,0.3)}
+.btn-outline{border:1px solid var(--gold-border);color:var(--gold);background:transparent}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold);transform:translateY(-1px)}
+.btn-group{display:flex;gap:0.9rem;flex-wrap:wrap}
+
+.section-sep{border:none;border-top:1px solid var(--border);margin:0}
+
+/* NUMBERS */
+.numbers-bar{background:linear-gradient(90deg,var(--navy2),var(--navy3));border-top:1px solid var(--gold-border);border-bottom:1px solid var(--border)}
+.numbers-inner{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr)}
+@media(max-width:600px){.numbers-inner{grid-template-columns:1fr}}
+.num-item{padding:2rem 1.5rem;text-align:center;border-right:1px solid var(--border);transition:background 0.3s}
+.num-item:last-child{border-right:none}
+.num-item:hover{background:var(--gold-dim)}
+.num-val{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:400;color:var(--gold);line-height:1}
+.num-label{font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-top:0.4rem}
+
+/* SECTION */
+.section{padding:90px 20px;max-width:1200px;margin:auto}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:300;margin-bottom:0.5rem}
+.section-sub{font-size:0.88rem;color:var(--text-muted);max-width:560px;line-height:1.8;margin-bottom:2rem}
+.divider{width:2.8rem;height:1px;background:var(--gold);margin:0.8rem 0 2.5rem}
+
+/* BENEFITS GRID */
+.benefits-grid{display:grid;gap:3px;margin-top:3px}
+@media(min-width:768px){.benefits-grid{grid-template-columns:1fr 1fr}}
+.benefit-card{
+  background:var(--navy2);border:1px solid var(--border);
+  overflow:hidden;position:relative;
+  transition:border-color 0.3s;
+  display:grid;
+}
+@media(min-width:900px){.benefit-card.wide{grid-column:span 2}}
+.benefit-card:hover{border-color:var(--gold-border)}
+.benefit-card-inner{padding:2.5rem 2.2rem;display:flex;flex-direction:column;gap:0}
+.bc-icon{font-size:2rem;margin-bottom:1rem}
+.benefit-card h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;margin-bottom:0.6rem}
+.benefit-card p{font-size:0.85rem;line-height:1.8;color:var(--text-sub);margin-bottom:1rem}
+.benefit-card ul{list-style:none;padding:0}
+.benefit-card ul li{font-size:0.82rem;color:var(--text-muted);padding:0.4rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem}
+.benefit-card ul li:last-child{border-bottom:none}
+.benefit-card ul li::before{content:'';width:1.2rem;height:1px;background:var(--gold);flex-shrink:0}
+/* borda esquerda dourada no hover */
+.benefit-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--gold);transition:width 0.3s}
+.benefit-card:hover::after{width:3px}
+
+/* COMO FUNCIONA PARCERIA */
+.steps-list{margin-top:2rem}
+.step-item{
+  display:grid;gap:2rem;align-items:start;
+  padding:2rem 0;border-bottom:1px solid var(--border);
+}
+@media(min-width:768px){.step-item{grid-template-columns:auto 1fr}}
+.step-item:last-child{border-bottom:none}
+.step-num-big{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4rem;font-weight:300;
+  color:var(--gold-border);line-height:1;
+  min-width:4rem;text-align:center;
+}
+.step-body h4{font-size:0.92rem;font-weight:500;letter-spacing:0.06em;margin-bottom:0.5rem;color:var(--text)}
+.step-body p{font-size:0.84rem;color:var(--text-muted);line-height:1.75}
+
+/* SPLIT IMAGEM — seção visual */
+.visual-split{
+  display:grid;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;min-height:460px;
+}
+@media(min-width:768px){.visual-split{grid-template-columns:1fr 1fr}}
+.vs-img{
+  position:relative;min-height:300px;overflow:hidden;
+}
+.vs-img-inner{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 0.8s ease}
+.visual-split:hover .vs-img-inner{transform:scale(1.04)}
+.vs-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,transparent 50%,var(--navy2));z-index:1}
+.vs-body{
+  background:var(--navy2);padding:3.5rem 2.8rem;
+  display:flex;flex-direction:column;justify-content:center;gap:1.2rem;
+}
+.vs-body h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.15}
+.vs-body h2 em{font-style:normal;color:var(--gold)}
+.vs-body p{font-size:0.86rem;line-height:1.85;color:var(--text-sub)}
+
+/* CTA STRIP */
+.cta-strip{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--navy3),var(--navy4));
+  border-top:1px solid var(--gold-border);border-bottom:1px solid var(--gold-border);
+  padding:70px 20px;text-align:center;
+}
+.cta-strip::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(201,168,76,0.07) 0%,transparent 70%)}
+.cta-inner{position:relative;z-index:1;max-width:700px;margin:auto}
+.cta-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;margin-bottom:1rem}
+.cta-inner p{font-size:0.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:2.2rem}
+
+footer{background:var(--navy2);border-top:1px solid var(--gold-border);padding:56px 20px 40px}
+.footer-inner{max-width:1200px;margin:auto;display:grid;gap:40px;align-items:start}
+@media(min-width:768px){.footer-inner{grid-template-columns:1fr auto}}
+.footer-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.8;max-width:340px;margin-top:1rem}
+.footer-contact{text-align:right}
+.footer-contact-label{font-size:0.64rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.8rem}
+.footer-contact-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--gold);margin-bottom:0.3rem}
+.footer-contact-phone{font-size:1rem;color:var(--text-sub)}
+.footer-divider{border:none;border-top:1px solid var(--border);margin:2rem auto;max-width:1200px;display:block}
+.footer-copy{text-align:center;font-size:0.7rem;color:rgba(255,255,255,0.14);letter-spacing:0.12em;max-width:1200px;margin:auto}
+
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:0.7rem;background:var(--gold);color:var(--navy);padding:0.88rem 1.8rem;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;font-weight:600;box-shadow:0 6px 40px rgba(201,168,76,0.4);transition:all 0.3s}
+.wa-float:hover{background:var(--gold-light);transform:translateY(-2px)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo"><img src="LogoAMFinanceira.png" alt="AM Financeira"></a>
+    <div class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="index.html#sobre">Quem somos</a>
+      <a href="cliente.html">Cliente</a>
+      <a href="lojista.html" class="active">Lojista</a>
+      <a href="https://wa.me/5585994249656" class="nav-cta">Contato</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO — loja de caminhões -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow">Para o Lojista</div>
+    <h1>Venda mais com<br>crédito <em>aprovado</em></h1>
+    <p class="hero-desc">Seja parceiro da AM Financeira e transforme cada "não" do banco em uma venda real — aumentamos sua taxa de conversão com crédito especializado para caminhoneiros.</p>
+    <div class="btn-group">
+      <a href="https://wa.me/5585994249656?text=Quero%20ser%20parceiro%20lojista" class="btn btn-gold">🤝 Quero ser parceiro</a>
+      <a href="index.html" class="btn btn-outline">← Voltar ao início</a>
+    </div>
+  </div>
+</div>
+
+<!-- NÚMEROS -->
+<div class="numbers-bar reveal">
+  <div class="numbers-inner">
+    <div class="num-item"><div class="num-val">+30%</div><div class="num-label">Aumento médio em conversão</div></div>
+    <div class="num-item"><div class="num-val">6+</div><div class="num-label">Bancos analisados por cliente</div></div>
+    <div class="num-item"><div class="num-val">24h</div><div class="num-label">Análise de crédito</div></div>
+  </div>
+</div>
+
+<hr class="section-sep">
+
+<!-- BENEFÍCIOS -->
+<section class="section reveal">
+  <div class="eyebrow" style="margin-bottom:0.8rem">Por que ser parceiro</div>
+  <h2 class="section-title">O que a parceria oferece</h2>
+  <p class="section-sub">Soluções que transformam clientes reprovados em compradores reais, gerando mais vendas para sua loja.</p>
+  <div class="divider"></div>
+  <div class="benefits-grid">
+
+    <div class="benefit-card">
+      <div class="benefit-card-inner">
+        <span class="bc-icon">🤝</span>
+        <h3>Parceria com Lojas</h3>
+        <p>Ajudamos sua loja a aumentar a taxa de aprovação e não perder vendas por crédito negado.</p>
+        <ul>
+          <li>Recuperação de clientes reprovados</li>
+          <li>Maior taxa de conversão</li>
+          <li>Processo simples e sem burocracia</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-card-inner">
+        <span class="bc-icon">📈</span>
+        <h3>Mais Vendas</h3>
+        <p>Cada cliente que chegaria ao "não" pode se tornar uma venda com a consultoria certa.</p>
+        <ul>
+          <li>Análise em múltiplas financeiras</li>
+          <li>Atendimento rápido ao seu cliente</li>
+          <li>Suporte consultivo ao lojista</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-card-inner">
+        <span class="bc-icon">🚛</span>
+        <h3>Indicação de Clientes</h3>
+        <p>Direcionamos clientes aprovados para lojas parceiras quando ainda não escolheram o veículo.</p>
+        <ul>
+          <li>Compradores qualificados com crédito aprovado</li>
+          <li>Fluxo constante de novos negócios</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="benefit-card">
+      <div class="benefit-card-inner">
+        <span class="bc-icon">🔷</span>
+        <h3>Cliente sem Caminhão Definido</h3>
+        <p>Quando o cliente ainda não escolheu onde comprar, indicamos sua loja como opção preferencial.</p>
+        <ul>
+          <li>Mais oportunidades de negócio</li>
+          <li>Parceria de longo prazo</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-sep">
+
+<!-- VISUAL SPLIT — negociação em loja -->
+<div class="visual-split reveal">
+  <div class="vs-img">
+    <div class="vs-img-inner" style="background-image:url('lojista-negociacao.png')"></div>
+    <div class="vs-img-overlay"></div>
+  </div>
+  <div class="vs-body">
+    <div class="eyebrow" style="margin-bottom:0.6rem">Nossa proposta</div>
+    <h2>Sua loja <em>sempre</em> fecha</h2>
+    <p>O cliente permanece com você — a AM Financeira atua nos bastidores garantindo o crédito que viabiliza a compra. Sem interferência na negociação, sem concorrência.</p>
+    <p>Uma parceria onde todos ganham: sua loja vende mais, o cliente realiza o sonho e o consultor faz o que faz de melhor — aprovar crédito.</p>
+    <a href="https://wa.me/5585994249656?text=Quero%20entender%20a%20parceria" class="btn btn-outline" style="align-self:flex-start;margin-top:0.5rem">Entender a parceria</a>
+  </div>
+</div>
+
+<hr class="section-sep">
+
+<!-- COMO FUNCIONA -->
+<section class="section reveal">
+  <div class="eyebrow" style="margin-bottom:0.8rem">Processo</div>
+  <h2 class="section-title">Como funciona a parceria</h2>
+  <div class="divider"></div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-num-big">01</div>
+      <div class="step-body">
+        <h4>Contato e cadastro</h4>
+        <p>Você entra em contato pelo WhatsApp e nos apresenta sua loja. Processo rápido e sem burocracia.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-big">02</div>
+      <div class="step-body">
+        <h4>Envio de clientes reprovados</h4>
+        <p>Quando um cliente for reprovado na análise de crédito, você nos indica. Analisamos o perfil em múltiplas financeiras.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-big">03</div>
+      <div class="step-body">
+        <h4>Análise e aprovação</h4>
+        <p>Encontramos a melhor instituição para o perfil do cliente, com condições reais de aprovação e taxas competitivas.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-big">04</div>
+      <div class="step-body">
+        <h4>Venda realizada na sua loja</h4>
+        <p>Com o crédito aprovado, o cliente retorna à sua loja e a venda é concluída. Sua loja fatura, todos ganham.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-sep">
+
+<!-- CTA FINAL -->
+<div class="cta-strip reveal">
+  <div class="cta-inner">
+    <div class="eyebrow" style="justify-content:center;margin-bottom:1.2rem">Vamos crescer juntos?</div>
+    <h2>Pronto para vender mais?</h2>
+    <p>Entre em contato agora e descubra como a parceria com a AM Financeira pode transformar os resultados da sua loja de caminhões.</p>
+    <a href="https://wa.me/5585994249656?text=Quero%20ser%20parceiro%20lojista" class="btn btn-gold">🤝 Quero ser parceiro</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <img src="LogoAMFinanceira.png" alt="AM Financeira" style="height:58px;display:block">
+      <p class="footer-desc">Assessoria de crédito especializada para caminhoneiros. Mais de 30 anos conectando motoristas às melhores condições do mercado.</p>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-contact-label">Fale com o consultor</div>
+      <div class="footer-contact-name">Severo Brito</div>
+      <div class="footer-contact-phone">85 99424-9656</div>
+      <a href="https://wa.me/5585994249656" class="btn btn-gold" style="margin-top:1.2rem;font-size:0.7rem">💬 WhatsApp</a>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <p class="footer-copy">© Todos os direitos reservados — AM Financeira</p>
+</footer>
+
+<a href="https://wa.me/5585994249656" class="wa-float">💬 WhatsApp</a>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

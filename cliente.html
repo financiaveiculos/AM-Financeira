@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cliente — AM Financeira</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0B1C3A;--navy2:#0D2147;--navy3:#112554;--navy4:#162E63;--navy-light:#1A3570;
+  --gold:#C9A84C;--gold-light:#E2C96A;
+  --gold-dim:rgba(201,168,76,0.12);--gold-border:rgba(201,168,76,0.32);
+  --text:#EEE8DA;--text-muted:#8EA0BE;--text-sub:#B8C6D8;
+  --border:rgba(255,255,255,0.07);
+}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Jost',sans-serif;font-weight:300;background:var(--navy);color:var(--text);overflow-x:hidden}
+
+nav{position:sticky;top:0;z-index:1000;background:rgba(11,28,58,0.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--gold-border);padding:0 56px}
+.nav-container{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;height:72px}
+.nav-logo img{height:46px;width:auto}
+.nav-links{display:flex;gap:2.4rem;align-items:center}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.74rem;letter-spacing:0.18em;text-transform:uppercase;transition:color 0.3s;font-weight:400}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-cta{padding:0.52rem 1.6rem;border:1px solid var(--gold-border);color:var(--gold)!important;transition:all 0.3s!important}
+.nav-cta:hover{background:var(--gold)!important;color:var(--navy)!important}
+
+/* HERO */
+.page-hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;overflow:hidden}
+.page-hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    linear-gradient(to bottom, rgba(11,28,58,0.3) 0%, rgba(11,28,58,0.65) 55%, rgba(11,28,58,1) 100%),
+    linear-gradient(to right, rgba(11,28,58,0.6) 0%, transparent 50%),
+    url('https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=1800&q=85') center/cover no-repeat;
+}
+.page-hero-content{position:relative;z-index:2;max-width:1200px;margin:auto;padding:0 20px 80px;width:100%}
+.eyebrow{font-size:0.66rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;display:flex;align-items:center;gap:1.2rem}
+.eyebrow::before{content:'';display:block;width:3rem;height:1px;background:var(--gold-border)}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,5.2rem);font-weight:300;line-height:1.05;margin-bottom:1.2rem}
+h1 em{font-style:normal;color:var(--gold);font-weight:400}
+.hero-desc{font-size:0.95rem;color:var(--text-sub);max-width:560px;line-height:1.82;margin-bottom:2.2rem;font-weight:300}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Jost',sans-serif;font-size:0.74rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;padding:0.9rem 2.2rem;transition:all 0.3s;font-weight:500;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,168,76,0.3)}
+.btn-outline{border:1px solid var(--gold-border);color:var(--gold);background:transparent}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold);transform:translateY(-1px)}
+.btn-group{display:flex;gap:0.9rem;flex-wrap:wrap}
+
+/* SECTION */
+.section{padding:0 20px;max-width:1200px;margin:auto}
+.section-sep{border:none;border-top:1px solid var(--border);margin:0}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:300;margin-bottom:0.5rem}
+.divider{width:2.8rem;height:1px;background:var(--gold);margin:0.8rem 0 0}
+
+/* INTRO SECTION */
+.intro-section{padding:80px 20px}
+.intro-inner{max-width:1200px;margin:auto}
+
+/* SERVIÇOS — CARDS GRANDES COM IMAGEM FULL */
+.services-wrap{margin-top:0}
+
+.service-block{
+  display:grid;min-height:520px;
+  border-top:1px solid var(--border);
+  overflow:hidden;position:relative;
+}
+@media(min-width:768px){
+  .service-block{grid-template-columns:1fr 1fr}
+  .service-block.flip{grid-template-columns:1fr 1fr}
+}
+.sb-img{
+  position:relative;overflow:hidden;min-height:320px;
+}
+.sb-img-inner{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform 0.8s ease;
+}
+.service-block:hover .sb-img-inner{transform:scale(1.05)}
+.sb-img-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to right, transparent 40%, var(--navy));
+}
+.service-block.flip .sb-img-overlay{
+  background:linear-gradient(to left, transparent 40%, var(--navy));
+}
+.sb-body{
+  background:var(--navy);
+  padding:3rem 2.8rem;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:2;
+}
+.sb-tag{
+  display:inline-block;font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold-border);
+  padding:0.22rem 0.8rem;margin-bottom:1.2rem;align-self:flex-start;
+}
+.sb-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5.5rem;font-weight:300;
+  color:rgba(201,168,76,0.07);
+  line-height:1;position:absolute;
+  top:1.5rem;right:2rem;
+}
+.sb-body h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:300;margin-bottom:0.7rem;line-height:1.15;
+}
+.sb-body h2 em{font-style:normal;color:var(--gold)}
+.sb-body p{font-size:0.87rem;line-height:1.85;color:var(--text-sub);margin-bottom:1.2rem}
+.sb-list{list-style:none;padding:0;margin-bottom:2rem}
+.sb-list li{
+  font-size:0.82rem;color:var(--text-muted);padding:0.42rem 0;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0.7rem;
+}
+.sb-list li:last-child{border-bottom:none}
+.sb-list li::before{content:'';width:1.4rem;height:1px;background:var(--gold);flex-shrink:0}
+
+/* HIGHLIGHT ESPECIAL */
+.highlight-block{
+  border:1px solid var(--gold-border);
+  background:linear-gradient(135deg, var(--navy2), var(--navy3));
+  padding:3rem 2.8rem;margin:3px 0 0;
+  display:grid;gap:2rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+@media(min-width:768px){.highlight-block{grid-template-columns:1fr auto}}
+.highlight-block::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold)}
+.highlight-block::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 50% 80% at 90% 50%,rgba(201,168,76,0.06) 0%,transparent 70%);
+}
+.highlight-content{position:relative;z-index:1}
+.highlight-content h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold);margin-bottom:0.7rem}
+.highlight-content p{font-size:0.88rem;color:var(--text-sub);line-height:1.82}
+.highlight-action{position:relative;z-index:1;display:flex;flex-direction:column;gap:0.8rem;align-items:flex-end}
+
+/* FOOTER */
+footer{background:var(--navy2);border-top:1px solid var(--gold-border);padding:56px 20px 40px}
+.footer-inner{max-width:1200px;margin:auto;display:grid;gap:40px;align-items:start}
+@media(min-width:768px){.footer-inner{grid-template-columns:1fr auto}}
+.footer-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.8;max-width:340px;margin-top:1rem}
+.footer-contact{text-align:right}
+.footer-contact-label{font-size:0.64rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.8rem}
+.footer-contact-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--gold);margin-bottom:0.3rem}
+.footer-contact-phone{font-size:1rem;color:var(--text-sub)}
+.footer-divider{border:none;border-top:1px solid var(--border);margin:2rem auto;max-width:1200px;display:block}
+.footer-copy{text-align:center;font-size:0.7rem;color:rgba(255,255,255,0.14);letter-spacing:0.12em;max-width:1200px;margin:auto}
+
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;align-items:center;gap:0.7rem;background:var(--gold);color:var(--navy);padding:0.88rem 1.8rem;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;font-weight:600;box-shadow:0 6px 40px rgba(201,168,76,0.4);transition:all 0.3s}
+.wa-float:hover{background:var(--gold-light);transform:translateY(-2px)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo"><img src="LogoAMFinanceira.png" alt="AM Financeira"></a>
+    <div class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="index.html#sobre">Quem somos</a>
+      <a href="cliente.html" class="active">Cliente</a>
+      <a href="lojista.html">Lojista</a>
+      <a href="https://wa.me/5585994249656" class="nav-cta">Contato</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow">Para o Caminhoneiro</div>
+    <h1>Crédito feito<br>para <em>você</em></h1>
+    <p class="hero-desc">Escolha a solução ideal para o seu momento — do financiamento ao crédito com garantia, com atendimento consultivo do início ao fim.</p>
+    <div class="btn-group">
+      <a href="https://wa.me/5585994249656?text=Quero%20simular%20crédito" class="btn btn-gold">💬 Falar no WhatsApp</a>
+      <a href="index.html" class="btn btn-outline">← Voltar ao início</a>
+    </div>
+  </div>
+</div>
+
+<hr class="section-sep">
+
+<!-- INTRO -->
+<div class="intro-section reveal">
+  <div class="intro-inner">
+    <div class="eyebrow" style="margin-bottom:0.8rem">Opções disponíveis</div>
+    <h2 class="section-title">Escolha sua linha de crédito</h2>
+    <div class="divider"></div>
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<div class="services-wrap">
+
+  <!-- 1 — FINANCIAR CAMINHÃO -->
+  <div class="service-block reveal">
+    <div class="sb-img">
+      <div class="sb-img-inner" style="background-image:url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=85')"></div>
+      <div class="sb-img-overlay"></div>
+    </div>
+    <div class="sb-body">
+      <div class="sb-num">01</div>
+      <span class="sb-tag">Financiamento Veicular</span>
+      <h2>🚛 Financiar <em>Caminhão</em></h2>
+      <p>Ideal para adquirir caminhão novo ou usado. Trabalhamos mesmo com score baixo ou pequenas restrições — sua situação é analisada de forma consultiva.</p>
+      <ul class="sb-list">
+        <li>Analisamos casos com restrições no nome</li>
+        <li>Entrada facilitada e negociável</li>
+        <li>Planos personalizados para cada perfil</li>
+        <li>Caminhão novo ou usado</li>
+      </ul>
+      <a href="https://wa.me/5585994249656?text=Quero%20financiar%20caminhão" class="btn btn-gold" style="align-self:flex-start">Quero financiar</a>
+    </div>
+  </div>
+
+  <!-- 2 — IMPLEMENTO (flip) -->
+  <div class="service-block flip reveal">
+    <div class="sb-body" style="order:1">
+      <div class="sb-num">02</div>
+      <span class="sb-tag">Implementos</span>
+      <h2>🔧 Financiar <em>Implemento</em></h2>
+      <p>Carretas, baús, implementos agrícolas ou de transporte — aumente sua capacidade de faturamento com condições que cabem no seu bolso.</p>
+      <ul class="sb-list">
+        <li>Condições facilitadas e competitivas</li>
+        <li>Ideal para quem já atua no transporte</li>
+        <li>Análise de perfil personalizada</li>
+        <li>Carretas, baús e implementos</li>
+      </ul>
+      <a href="https://wa.me/5585994249656?text=Quero%20financiar%20implemento" class="btn btn-gold" style="align-self:flex-start">Quero financiar</a>
+    </div>
+    <div class="sb-img" style="order:2">
+      <div class="sb-img-inner" style="background-image:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=85')"></div>
+      <div class="sb-img-overlay" style="background:linear-gradient(to left,transparent 40%,var(--navy))"></div>
+    </div>
+  </div>
+
+  <!-- 3 — REFINANCIAMENTO -->
+  <div class="service-block reveal">
+    <div class="sb-img">
+      <div class="sb-img-inner" style="background-image:url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=900&q=85')"></div>
+      <div class="sb-img-overlay"></div>
+    </div>
+    <div class="sb-body">
+      <div class="sb-num">03</div>
+      <span class="sb-tag">Crédito com Garantia</span>
+      <h2>💰 <em>Refinanciamento</em></h2>
+      <p>Use seu caminhão como garantia e saia com capital na mão. Você continua rodando e faturando normalmente enquanto o crédito trabalha para você.</p>
+      <ul class="sb-list">
+        <li>Taxas mais baixas que crédito pessoal</li>
+        <li>Liberação ágil com análise rápida</li>
+        <li>Você continua usando o veículo</li>
+        <li>Capital para qualquer finalidade</li>
+      </ul>
+      <a href="https://wa.me/5585994249656?text=Quero%20crédito%20com%20garantia" class="btn btn-gold" style="align-self:flex-start">Quero crédito</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- HIGHLIGHT -->
+<div style="max-width:1200px;margin:0 auto;padding:0 0 80px">
+  <div class="highlight-block reveal">
+    <div class="highlight-content">
+      <h3>🔷 Já tem uma loja em mente?</h3>
+      <p>Já encontrou o caminhão ou está negociando com alguma loja? A AM Financeira te ajuda a chegar com o crédito aprovado na mão — acelerando a negociação e garantindo as melhores condições.</p>
+    </div>
+    <div class="highlight-action">
+      <a href="https://wa.me/5585994249656?text=Já%20tenho%20uma%20loja%20em%20mente" class="btn btn-gold">Falar com consultor</a>
+      <a href="lojista.html" class="btn btn-outline">Sou lojista</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <img src="LogoAMFinanceira.png" alt="AM Financeira" style="height:58px;display:block">
+      <p class="footer-desc">Assessoria de crédito especializada para caminhoneiros. Mais de 30 anos conectando motoristas às melhores condições do mercado.</p>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-contact-label">Fale com o consultor</div>
+      <div class="footer-contact-name">Severo Brito</div>
+      <div class="footer-contact-phone">85 99424-9656</div>
+      <a href="https://wa.me/5585994249656" class="btn btn-gold" style="margin-top:1.2rem;font-size:0.7rem">💬 WhatsApp</a>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <p class="footer-copy">© Todos os direitos reservados — AM Financeira</p>
+</footer>
+
+<a href="https://wa.me/5585994249656" class="wa-float">💬 WhatsApp</a>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
